@@ -75,9 +75,11 @@ class WagentController extends AdminController
 
         for ($i = 0; $i < $pages; $i++) { 
             $arrayRes[$i]['parentId'] = 0;
-            $arrayRes[$i]['disabled'] = true;
+            $arrayRes[$i]['disabled'] = false;
             $arrayRes[$i]['id'] = '-'.($i + 1);
             $arrayRes[$i]['title'] = '第'.($i + 1).'页';
+            $arrayRes[$i]['checkArr']['type'] = 0;
+            $arrayRes[$i]['checkArr']['checked'] = 0;
             $page = $i * $limit;
             $Wagent = Wagent::where('status','=',1)->orderBy('sort','desc')->orderBy('id','desc');
             $Wagent = $Wagent->offset($page)->limit($limit);
@@ -87,6 +89,8 @@ class WagentController extends AdminController
                 $arrayRes[$i]['children'][$key]['disabled'] = false; 
                 $arrayRes[$i]['children'][$key]['id'] = $value['id']; 
                 $arrayRes[$i]['children'][$key]['title'] = $value['name'];
+                $arrayRes[$i]['children'][$key]['checkArr']['type'] = 0;
+                $arrayRes[$i]['children'][$key]['checkArr']['checked'] = 0;
             }
         }
         return return_json(0,'操作成功！',$arrayRes);
