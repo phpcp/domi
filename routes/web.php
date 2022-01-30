@@ -12,11 +12,3 @@ use Illuminate\Routing\Router;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group([
-    'prefix'        => 'tiktok',
-    'namespace'     => 'App\Tiktok\Controllers',
-    // 'middleware'    => config('admin.route.middleware'),
-    'as'            => 'tiktok' . '.',
-], function (Router $router) {
-    $router->get('user', 'UserController@show')->name('show');
-});
