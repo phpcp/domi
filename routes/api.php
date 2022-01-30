@@ -13,11 +13,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::group([
-    // 'prefix'        => 'tiktok',
+    // 'prefix'        => 'api',
     'namespace'     => 'App\Tiktok\Controllers',
-    // 'middleware'    => config('admin.route.middleware'),
+    'middleware'    => ['cors'],
     'as'            => 'tiktok' . '.',
 ], function () {
     Route::get('user', 'UserController@show')->name('show');

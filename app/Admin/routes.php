@@ -10,6 +10,7 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
     'as'            => config('admin.route.prefix') . '.',
 ], function (Router $router) {
+    
     $router->get('/', 'HomeController@index')->name('home');
 
     //---------公共权限(使用用户都必须拥有该权限)
