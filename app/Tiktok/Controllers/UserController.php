@@ -7,6 +7,7 @@ class UserController
 {
     public function show()
     {
+        
         $token_url = "https://open-api.tiktok.com/platform/oauth/connect?client_key={CLIENT_KEY}&scope=user.info.basic,video.list&response_type=code&redirect_uri={SERVER_ENDPOINT_REDIRECT}&state=123123";
     	dd($token_url);
         $token_res = $this->https_request($token_url);
