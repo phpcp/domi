@@ -5,10 +5,13 @@ use App\Models\WanchorUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use TikTok\Scraper;
+
 class UserController 
 {
     public function show(Request $request)
     {
+        
         
 
 

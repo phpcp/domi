@@ -12,6 +12,7 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "robert-grubb/tiktok-php": "^1.9",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
@@ -63,7 +64,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "mouf/nodejs-installer": true
         }
     },
     "minimum-stability": "dev",
