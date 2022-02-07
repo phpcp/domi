@@ -5,12 +5,35 @@ use App\Models\WanchorUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use TikTok\Scraper;
+
 class UserController 
 {
     public function show(Request $request)
     {
         
+        // Instantiate TikTok Scraper library
+        $scraper = new Scraper([
+          // Sign method
+          'signMethod' => 'datafetch',
+          'datafetchApiKey' => '',
+          'userAgent' => '',
+          'proxy' => [
+            'protocol' => 'http',
+            'address' => '127.0.0.1:8080',
+            'auth' => 'username:password'
+          ],
+          'timeout' => 20,
 
+          // Since v1.8.0 (Must set cookie file)
+          // 'cookieFile' => __DIR__ . '/cookies.json',
+          'cookieFile' => "D:\wwwroot\domi\app\public\cookies.json",
+          // If not using cookies:
+          'disableCookies' => true
+        ]);
+        dd(__DIR__);
+        $res = $scraper->user->details('anaraquelhz');
+        dd($res);
         $token_url = "https://open-api.tiktok.com/platform/oauth/connect?client_key={CLIENT_KEY}&scope=user.info.basic,video.list&response_type=code&redirect_uri={SERVER_ENDPOINT_REDIRECT}&state=123123";
     	dd($token_url);
         $token_res = $this->https_request($token_url);
