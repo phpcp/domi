@@ -3,7 +3,12 @@
 <link rel="stylesheet" href="/static/public/public.css" media="all">
 <script src="/static/layui/layui.js" charset="utf-8"></script>
 <script src="/static/public/lay-config.js?v=1.0.4" charset="utf-8"></script>
-
+<style>
+    .layui-table-cell {
+        height: auto !important;
+        white-space: pre-line;
+    }
+</style>
 <div class="layui-row ">
     <div class="layui-col-md12 ">
         <div class="layui-panel ELEMENT" style="height: calc(100vh - 10px)">
@@ -22,13 +27,13 @@
                     </div>
                     <div class="layui-inline">
                         <span style="margin-left:5px;" class="layui-badge-dot"></span>
-                        <span style="margin-left:5px;color:red" class="key"></span>
+                        <span style="margin-left:5px;color:red;" class="key"></span>
 
                         <span style="margin-left:5px;" class="layui-badge-dot layui-bg-blue"></span>
-                        <span style="margin-left:5px;color:#1E9FFF" class="text"></span>
+                        <span style="margin-left:5px;color:#1E9FFF;" class="text"></span>
                     </div>
                 </blockquote>
-                <table id="List" lay-filter="List" ></table>
+                <table id="List" lay-filter="List" c_id="{{$c_id}}" k_id="{{$k_id}}"></table>
             </div>
         </div>   
     </div>

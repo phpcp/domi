@@ -7,10 +7,8 @@ layui.use(['form','table','unit_call'], function () {
     unit_call.delPower('.AddTo','page-field.add');
     unit_call.delPower('.Screen','page-field.list');
     unit_call.scrollZoomIn();
+
     var c_id = $('#List').attr('c_id');
-    if( !c_id ){
-        location.reload();
-    }
     //菜单列表
     var tableIns = table.render({
         elem: '#List',
@@ -25,7 +23,13 @@ layui.use(['form','table','unit_call'], function () {
         cols : [[
             {field: 'id', title: '序号',align:'center',fixed:'left',width:120},
             {field: 'key', title: 'KEY',  align:'center',fixed:'left',width:150},
-            {field: 'text', title: '原文',  align:'center'},
+            // {field: 'text', title: '原文',  align:'center'},
+            {field: 'text', title: '原文', align:'center',templet:function(d){
+                return '<div><span >'+d.text+'</span></div>';
+            }},
+            {field: 'remarks', title: '备注', align:'center',templet:function(d){
+                return '<div ><span >'+d.remarks+'</span></div>';
+            }},
             { title: '操作',width:150,  align:'center',fixed:'right',templet:function(d){
                 var html = '';
                 html +=  '<a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="LanguageTranslation">语言翻译</a>';
@@ -45,11 +49,11 @@ layui.use(['form','table','unit_call'], function () {
                 type : 2,
                 maxmin:true,
                 area: ['90%', '90%'],
-                content : "translate-list",
+                content : "translate-list?c_id="+c_id+'&k_id='+data.id,
                 success : function(layero, index){
                     var body = layui.layer.getChildFrame('body', index);
-                    body.find("#List").attr('k_id',data.id);
-                    body.find("#List").attr('c_id',1);
+                    // body.find("#List").attr('k_id',data.id);
+                    // body.find("#List").attr('c_id',1);
                     setTimeout(function(){
                         layui.layer.tips('点击此处返回模块列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3
@@ -134,6 +138,27 @@ layui.use(['form','table','unit_call'], function () {
     }
     function done(res, curr, count)
     {
+        //动态监听表头高度变化，冻结行跟着改变高度
+        // $(".layui-table-header  tr").resize(function () {
+        //     $(".layui-table-header  tr").each(function (index, val) {
+        //         $($(".layui-table-fixed .layui-table-header table tr")[index]).height($(val).height());
+        //     });
+        // });
+        //初始化高度，使得冻结行表头高度一致
+        // $(".layui-table-header  tr").each(function (index, val) {
+        //     $($(".layui-table-fixed .layui-table-header table tr")[index]).height($(val).height());
+        // });
+        //动态监听表体高度变化，冻结行跟着改变高度
+        $(".layui-table-body  tr").resize(function () {
+            $(".layui-table-body  tr").each(function (index, val) {
+                $($(".layui-table-fixed .layui-table-body table tr")[index]).height($(val).height());
+            });
+        });
+        //初始化高度，使得冻结行表体高度一致
+        $(".layui-table-body  tr").each(function (index, val) {
+            $($(".layui-table-fixed .layui-table-body table tr")[index]).height($(val).height());
+        });
+
         if( res.data.length == 0){
             if( curr != 1){ table.reload("ListId",{page: {curr: curr - 1}})}
         }

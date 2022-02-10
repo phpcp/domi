@@ -78,10 +78,10 @@ layui.use(['form','table','unit_call'], function () {
                 type : 2,
                 maxmin:true,
                 area: ['90%', '90%'],
-                content : "page-field-list",
+                content : "page-field-list?c_id="+data.id,
                 success : function(layero, index){
                     var body = layui.layer.getChildFrame('body', index);
-                    body.find("#List").attr('c_id',data.id);
+                    // body.find("#List").attr('c_id',data.id);
                     setTimeout(function(){
                         layui.layer.tips('点击此处返回模块列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3

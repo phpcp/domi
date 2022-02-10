@@ -22,9 +22,15 @@
 	                </div>
 	            </div>
 	            <div class="layui-form-item layui-form-text">
-	                <label class="layui-form-label">TEXT</label>
+	                <label class="layui-form-label">原文</label>
 	                <div class="layui-input-block">
-	                    <textarea name="text" placeholder="请输入TEXT" autocomplete="off" class="layui-textarea layext-text-tool" maxlength="300" lay-verify="noNull" name-verify="TEXT"></textarea>
+	                    <textarea name="text" placeholder="请输入原文" autocomplete="off" class="layui-textarea layext-text-tool" maxlength="300" lay-verify="noNull" name-verify="原文"></textarea>
+	                </div>
+	            </div>
+	            <div class="layui-form-item layui-form-text">
+	                <label class="layui-form-label">备注</label>
+	                <div class="layui-input-block">
+	                    <textarea name="remarks" placeholder="请输入备注" autocomplete="off" class="layui-textarea layext-text-tool" maxlength="300" ></textarea>
 	                </div>
 	            </div>
 		        <input type="hidden" class="layui-input c_id"  name="c_id">

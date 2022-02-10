@@ -93,4 +93,5 @@ Route::group([
     $router->get('translate-ajax', 'WfrontPageController@translate_ajax')->name('translate_ajax');
     $router->post('translate-form', 'WfrontPageController@translate_form')->name('translate_form');
     $router->post('translate-translate', 'WfrontPageController@translate_translate')->name('translate_translate');
+    $router->get('translate-add', 'WfrontPageController@translate_add')->name('translate_add');
 });

@@ -7,9 +7,6 @@ layui.use(['form','table','unit_call'], function () {
     unit_call.delPower('.AddTo','wcourse.add');
     unit_call.scrollZoomIn();
     var c_id = $('#List').attr('c_id');
-    if( !c_id ){
-        location.reload();
-    }
     //菜单列表
     var tableIns = table.render({
         elem: '#List',
@@ -93,10 +90,10 @@ layui.use(['form','table','unit_call'], function () {
                 type : 2,
                 maxmin:true,
                 area: ['797px', '90%'],
-                content : "wcourse-low-lang-list",
+                content : "wcourse-low-lang-list?cl_id="+data.id,
                 success : function(layero, index){
                     var body = layui.layer.getChildFrame('body', index);
-                    body.find("#List").attr('cl_id',data.id);
+                    // body.find("#List").attr('cl_id',data.id);
                     setTimeout(function(){
                         layui.layer.tips('点击此处返回模块列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3

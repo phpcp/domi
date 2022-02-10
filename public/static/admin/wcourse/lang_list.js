@@ -8,9 +8,6 @@ layui.use(['form','table','unit_call'], function () {
     // unit_call.delPower('.AddTo','wcourse.add');
     unit_call.scrollZoomIn();
     var c_id = $('#List').attr('c_id');
-    if( !c_id ){
-        location.reload();
-    }
     //菜单列表
     var tableIns = table.render({
         elem: '#List',

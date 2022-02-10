@@ -3,7 +3,12 @@
 <link rel="stylesheet" href="/static/public/public.css" media="all">
 <script src="/static/layui/layui.js" charset="utf-8"></script>
 <script src="/static/public/lay-config.js?v=1.0.4" charset="utf-8"></script>
-
+<style>
+    .layui-table-cell {
+        height: auto !important;
+        white-space: pre-line;
+    }
+</style>
 <div class="layui-row ">
     <div class="layui-col-md12 ">
         <div class="layui-panel ELEMENT" style="height: calc(100vh - 10px)">
@@ -26,9 +31,12 @@
                         </button>
                     </div>
                 </blockquote>
-                <table id="List" lay-filter="List" ></table>
+                <table id="List" lay-filter="List" c_id="{{ $c_id }}"></table>
             </div>
         </div>   
     </div>
 </div>  
 <script src="/static/admin/wfrontPage/page_field.js"></script>
+<script>
+    
+</script>

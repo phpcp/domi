@@ -186,9 +186,10 @@ class WcourseController extends AdminController
         }
         return return_json(0,'操作成功！',$id); 
     }
-    public function wcourse_lang_list()
+    public function wcourse_lang_list(Request $request)
     {
         return view('wcourse.lang_list')
+        ->with('c_id',$request->c_id)
         ->with('title','课程标题');
     }
     public function wcourse_lang_ajax(Request $request)

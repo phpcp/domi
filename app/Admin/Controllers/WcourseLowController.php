@@ -24,9 +24,10 @@ class WcourseLowController extends AdminController
      * @var string
      */
     protected $title = '课程子列表';
-    public function wcourse_low_list(Content $content)
+    public function wcourse_low_list(Request $request)
     {
         return view('wcourseLow.list')
+        ->with('c_id',$request->c_id)
         ->with('title','课程子列表');
     }
     public function wcourse_low_ajax(Request $request)
@@ -236,9 +237,10 @@ class WcourseLowController extends AdminController
 
         return return_json(0,'操作成功！'); 
     }
-    public function wcourse_low_lang_list()
+    public function wcourse_low_lang_list(Request $request)
     {
         return view('wcourseLow.lang_list')
+        ->with('cl_id',$request->cl_id)
         ->with('title','课程标题');
     }
     public function wcourse_low_lang_ajax(Request $request)

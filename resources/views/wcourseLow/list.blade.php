@@ -16,7 +16,7 @@
                         </button>
                     </div>
                 </blockquote>
-                <table id="List" lay-filter="List" ></table>
+                <table id="List" lay-filter="List" c_id="{{$c_id}}"></table>
             </div>
         </div>   
     </div>

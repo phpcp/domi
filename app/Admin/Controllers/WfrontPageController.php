@@ -92,10 +92,12 @@ class WfrontPageController extends AdminController
         }
         return return_json(0,'操作成功！',$id); 
     }
-    public function page_field_list()
+    //页面字段
+    public function page_field_list(Request $request)
     {
         return view('wfrontPage.page_field')
-        ->with('title','页面字段');
+        ->with('title','页面字段')
+        ->with('c_id',$request->c_id);
     }
     public function page_field_ajax(Request $request)
     {
@@ -107,18 +109,22 @@ class WfrontPageController extends AdminController
         $path = base_path().'/resources/langpublic/'.$WfrontPage['iso'].'.php';
         if( !file_exists($path) ){
             $myfile = fopen($path, "w");
+            fclose($myfile);
             $txt = "<?php\n";
             $txt .= "return [\n";
             $txt .= "];";
-            fwrite($myfile, $txt);
-            fclose($myfile);
+            file_put_contents($path,$txt);
+            // fwrite($myfile, $txt);
         }
         $config = require($path);
+        // file_get_contents($path,$txt);
+        // $config = file_get_contents($path);
         $configRes = [];
         foreach ($config as $key => $value) {
             $configRes[$key]['id'] = $key;
             $configRes[$key]['key'] = $value['key'];
             $configRes[$key]['text'] = $value['text'];
+            $configRes[$key]['remarks'] = $value['remarks'];
         }
         $count = count($configRes);
         $configList = array_slice($configRes,$page,$limit);
@@ -139,7 +145,6 @@ class WfrontPageController extends AdminController
         $c_id = $data['c_id'];
         $WfrontPage = WfrontPage::where('id','=',$c_id)->first()->toArray();
         $path = base_path().'/resources/langpublic/'.$WfrontPage['iso'].'.php';
-
         $config = require($path);
         $found_arr = array_column($config, 'key');
         $found_key = array_search($data['key'], $found_arr);
@@ -148,20 +153,13 @@ class WfrontPageController extends AdminController
         }
         unset($data['c_id']);
         array_unshift($config, $data);
-        $myfile = fopen($path, "w");
         $txt = "<?php\n";
         $txt .= "return [\n";
         foreach ($config as $key => $value) {
-            $txt .= "    ['key'=>'".$value['key']."','text'=>'".$value['text']."'],\n";
+            $txt .= "    ['key'=>'".$value['key']."','text'=>'".$value['text']."','remarks'=>'".$value['remarks']."'],\n";
         }
         $txt .= "];";
-        if (flock($myfile, LOCK_EX)) {  // 进行排它型锁定
-            ftruncate($myfile, 0);      // truncate file
-            fwrite($myfile, $txt);
-            fflush($myfile);            // flush output before releasing the lock
-            flock($myfile, LOCK_UN);    // 释放锁定
-        }
-        fclose($myfile);
+        file_put_contents($path,$txt);
         sleep(3);
         return return_json(0,'操作成功！');
     }
@@ -170,10 +168,13 @@ class WfrontPageController extends AdminController
         return view('wfrontPage.page_field_screen')
         ->with('title','筛选');
     }
-    public function translate_list()
+    //语言翻译
+    public function translate_list(Request $request)
     {
         return view('wfrontPage.translate_list')
-        ->with('title','语言翻译');
+        ->with('title','语言翻译')
+        ->with('c_id',$request->c_id)
+        ->with('k_id',$request->k_id);
     }
     public function translate_ajax(Request $request)
     {
@@ -188,17 +189,20 @@ class WfrontPageController extends AdminController
         $wlanguage = Wlanguage::orderBy('sort','asc')->orderBy('id','desc')->select('id','iso as isos','name','status','route')->get()->toArray();
         $wlanguage_true = [];
         $wlanguage_false = [];
-        $form = Admin::user()->can('page-field.list');
+        $add = Admin::user()->can('translate.add');
+        $form = Admin::user()->can('translate.form');
         $translate = Admin::user()->can('translate.translate');
         foreach ($wlanguage as $key => $value) {
             $wlanguagePath = base_path().'/resources/lang/'.$value['route'].'/'.$WfrontPage['iso'].'.php';
             if( !file_exists($wlanguagePath) ){
                 $myfile = fopen($wlanguagePath, "w");
+                fclose($myfile);
+
                 $txt = "<?php\n";
                 $txt .= "return [\n";
                 $txt .= "];";
-                fwrite($myfile, $txt);
-                fclose($myfile);
+                file_put_contents($wlanguagePath,$txt);
+                // fwrite($myfile, $txt);
             }
             $wlanguageConfig = require($wlanguagePath);
             $found_arr = array_column($wlanguageConfig, 'key');
@@ -207,17 +211,21 @@ class WfrontPageController extends AdminController
                 $wlanguage_false[$key] = $value;
                 $wlanguage_false[$key]['key'] = $k_res['key'];
                 $wlanguage_false[$key]['key_text'] = $k_res['text'];
+                $wlanguage_false[$key]['remarks'] = $k_res['remarks'];
                 $wlanguage_false[$key]['text'] = '';
                 $wlanguage_false[$key]['iso'] = $WfrontPage['iso'];
                 $wlanguage_false[$key]['form'] = $form;
+                $wlanguage_false[$key]['add'] = $add;
                 $wlanguage_false[$key]['translate'] = $translate;
             }else{
                 $wlanguage_true[$key] = $value;
                 $wlanguage_true[$key]['key'] = $k_res['key'];
                 $wlanguage_true[$key]['key_text'] = $k_res['text'];
+                $wlanguage_true[$key]['remarks'] = $k_res['remarks'];
                 $wlanguage_true[$key]['text'] = $wlanguageConfig[$found_key]['text'];
                 $wlanguage_true[$key]['iso'] = $WfrontPage['iso'];
                 $wlanguage_true[$key]['form'] = $form;
+                $wlanguage_true[$key]['add'] = $add;
                 $wlanguage_true[$key]['translate'] = $translate;
             }
         }
@@ -231,50 +239,56 @@ class WfrontPageController extends AdminController
     public function translate_form(Request $request)
     {
         $data = $request->post();
-        $path = base_path().'/resources/lang/'.$data['route'].'/'.$data['iso'].'.php';
-        if( !file_exists($path) ){
-            $myfile = fopen($path, "w");
+
+        foreach ($data['translate'] as $key => $value) {
+            $path = base_path().'/resources/lang/'.$value['route'].'/'.$data['iso'].'.php';
+            if( !file_exists($path) ){
+                // $myfile = fopen($path, "w");
+                $txt = "<?php\n";
+                $txt .= "return [\n";
+                $txt .= "];";
+                file_put_contents($path,$txt);
+                // fwrite($myfile, $txt);
+                // fclose($myfile);
+            }
+            $config = require($path);
+            $found_arr = array_column($config, 'key');
+            $found_key = array_search($data['key'], $found_arr);
+            if( $found_key === false ){
+                $arr['key'] = $data['key'];
+                $arr['text'] = $value['text'];
+                array_push($config,$arr);
+            }else{
+                $config[$found_key]['text'] = $value['text'];
+            }
             $txt = "<?php\n";
             $txt .= "return [\n";
+            foreach ($config as $k => $v) {
+                $txt .= "    ['key'=>'".$v['key']."','text'=>'".addslashes($v['text'])."'],\n";
+            }
             $txt .= "];";
-            fwrite($myfile, $txt);
-            fclose($myfile);
+            file_put_contents($path,$txt);
         }
-        $config = require($path);
-        $found_arr = array_column($config, 'key');
-        $found_key = array_search($data['key'], $found_arr);
-        if( $found_key === false ){
-            $arr['key'] = $data['key'];
-            $arr['text'] = $data['text'];
-            array_push($config,$arr);
-        }else{
-            $config[$found_key]['text'] = $data['text'];
-        }
-        $myfiles = fopen($path, "w");
-        $txt = "<?php\n";
-        $txt .= "return [\n";
-        foreach ($config as $key => $value) {
-            $txt .= "    ['key'=>'".$value['key']."','text'=>'".addslashes($value['text'])."'],\n";
-        }
-        $txt .= "];";
-        if (flock($myfiles, LOCK_EX)) {  // 进行排它型锁定
-            ftruncate($myfiles, 0);      // truncate file
-            fwrite($myfiles, $txt);
-            fflush($myfiles);            // flush output before releasing the lock
-            flock($myfiles, LOCK_UN);    // 释放锁定
-        }
-        fclose($myfiles);
         sleep(3);
         return return_json(0,'操作成功！如果列表中没有显示翻译后内容，请点击上方刷新页面！');
     }
     public function translate_translate(Request $request)
     {
         $data = $request->post();
-        $res = Translate::translate($data['key_text'],$data['isos']);
-        $ResData['name'] = $data['name'];
-        $ResData['key'] = $data['key'];
-        $ResData['key_text'] = $data['key_text'];
-        $ResData['trans_result'] = $res['data'];
-        return return_json($res['code'],$res['msg'],$ResData);
+        $data = $data['dataArray'];
+        $ResData = [];
+        foreach ($data as $key => $value) {
+            $res = Translate::translate($value['key_text'],$value['isos']);
+            $ResData[$key]['name'] = $value['name'];
+            $ResData[$key]['key'] = $value['key'];
+            $ResData[$key]['key_text'] = $value['key_text'];
+            $ResData[$key]['trans_result'] = $res['data'];
+        }
+        return return_json(0,'操作成功！',$ResData);
+    }
+    public function translate_add(Request $request)
+    {
+        return view('wfrontPage.translate_add')
+        ->with('title','手动翻译');
     }
 }
