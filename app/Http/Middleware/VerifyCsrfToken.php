@@ -21,6 +21,7 @@ class VerifyCsrfToken extends Middleware
         "admin/wmeeting-show",
         "admin/wanchor-user-show",
         "admin/wagent-show",
-        //
+        "admin/translate-form",
+        "admin/translate-translate",
     ];
 }

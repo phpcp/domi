@@ -7,21 +7,39 @@ use Illuminate\Http\Request;
 
 use TikTok\Scraper;
 
-class UserController 
+class WanchorUserController 
 {
+    // 模拟登录（只限于测试）
+    public function login_user_dome(Request $request)
+    {
+        $id = $request->id;
+        if( empty($id)){
+            return return_json(1,'获取失败请传入ID！');
+        }
+        $user = WanchorUser::where('id','=',$id)->first();
+        if( empty($user)){
+            return return_json(1,'获取失败，用户不存在！');
+        }
+        if( $user->status == 2 ){
+            return return_json(1,'获取失败，该用户禁止使用！');
+        }
+        $tokenRre = setToken($user);
+        if( $tokenRre['code'] != 0 ){
+            return return_json($tokenRre['code'],$tokenRre['msg']);
+        }
+        $userArray = $user->toArray();
+        $userArray['token'] = $tokenRre['data']['token'];
+        return return_json($tokenRre['code'],$tokenRre['msg'],$userArray);
+    }
+    
     public function show(Request $request)
     {
-        
-        
-
-
         $token_url = "https://open-api.tiktok.com/platform/oauth/connect?client_key={CLIENT_KEY}&scope=user.info.basic,video.list&response_type=code&redirect_uri={SERVER_ENDPOINT_REDIRECT}&state=123123";
     	dd($token_url);
         $token_res = $this->https_request($token_url);
         dd($token_res);
         $token_res = json_decode($token_res, true);
     }
-    
     // 模拟 http 请求
     public function https_request($url, $data = null){
         // curl 初始化

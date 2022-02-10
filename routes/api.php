@@ -19,5 +19,5 @@ Route::group([
     'middleware'    => ['cors'],
     'as'            => 'tiktok' . '.',
 ], function () {
-    Route::get('user', 'UserController@show')->name('show');
+    Route::post('login_user_dome', 'WanchorUserController@login_user_dome')->name('login_user_dome');
 });

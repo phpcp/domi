@@ -75,4 +75,22 @@ Route::group([
     $router->get('wtask-ajax', 'WtaskController@wtask_ajax')->name('wtask_ajax');
     $router->get('wtask-add', 'WtaskController@wtask_add')->name('wtask_add');
     $router->post('wtask-form', 'WtaskController@wtask_form')->name('wtask_form');
+    //页面语言
+    $router->get('wfront-page-list', 'WfrontPageController@wfront_page_list')->name('wfront_page_list');
+    $router->get('wfront-page-ajax', 'WfrontPageController@wfront_page_ajax')->name('wfront_page_ajax');
+    $router->get('wfront-page-screen', 'WfrontPageController@wfront_page_screen')->name('wfront_page_screen');
+    $router->get('wfront-page-add', 'WfrontPageController@wfront_page_add')->name('wfront_page_add');
+    $router->post('wfront-page-form', 'WfrontPageController@wfront_page_form')->name('wfront_page_form');
+
+    //页面字段
+    $router->get('page-field-list', 'WfrontPageController@page_field_list')->name('page_field_list');
+    $router->get('page-field-ajax', 'WfrontPageController@page_field_ajax')->name('page_field_ajax');
+    $router->get('page-field-add', 'WfrontPageController@page_field_add')->name('page_field_add');
+    $router->post('page-field-form', 'WfrontPageController@page_field_form')->name('page_field_form');
+    $router->get('page-field-screen', 'WfrontPageController@page_field_screen')->name('page_field_screen');
+    //语言翻译
+    $router->get('translate-list', 'WfrontPageController@translate_list')->name('translate_list');
+    $router->get('translate-ajax', 'WfrontPageController@translate_ajax')->name('translate_ajax');
+    $router->post('translate-form', 'WfrontPageController@translate_form')->name('translate_form');
+    $router->post('translate-translate', 'WfrontPageController@translate_translate')->name('translate_translate');
 });

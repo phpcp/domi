@@ -31,6 +31,9 @@
         "files":[
             "app/Helpers/functions.php",
             "app/Helpers/jwtfunctions.php"
+        ],
+        "classmap":[
+            "app/Library/translate.php"
         ]
     },
     "autoload-dev": {

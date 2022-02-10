@@ -20,6 +20,12 @@
 		            </div>
 		        </div>
 		        <div class="layui-form-item ">
+		            <label class="layui-form-label">包路径</label>
+		            <div class="layui-input-block">
+		                <input type="text" name="route" autocomplete="off" class="layui-input layext-text-tool"  placeholder="请输入语言包路径" maxlength="50" verify="noNull" name-verify="语言包路径">
+		            </div>
+		        </div>
+		        <div class="layui-form-item ">
 		            <label class="layui-form-label">语言名称</label>
 		            <div class="layui-input-block">
 		                <input type="text" name="name" autocomplete="off" class="layui-input layext-text-tool"  placeholder="请输入语言名称" maxlength="50" verify="noNull" name-verify="语言名称">

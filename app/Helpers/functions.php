@@ -7,9 +7,13 @@
  * @param [type] $data
  * @param integer $code
  */
-function return_json(int $code,string $msg,$data = "", int $count = 0)
+function return_json(int $code,string $msg,$data = "", int $count = 0,$record="")
 {
-    return response()->json(compact('code', 'msg', 'count', 'data'));
+    if( empty($record)){
+        return response()->json(compact('code', 'msg', 'count', 'data'));
+    }else{
+        return response()->json(compact('code', 'msg', 'count', 'data','record'));
+    }
 }
 /**
  * 禁用Pjax

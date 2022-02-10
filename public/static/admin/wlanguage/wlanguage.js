@@ -21,6 +21,7 @@ layui.use(['form','table','unit_call'], function () {
         cols : [[
             {field: 'id', title: 'ID',align:'center',fixed:'left',sort:true, width:100},
             {field: 'iso', title: '标识',align:'center', width:180},
+            {field: 'route', title: '语言包路径',align:'center', width:180},
             {field: 'name', title: '语言名称',align:'center',edit:'text',width:180},
             {field: 'status', title: '状态',width:100,sort:true,  align:'center',templet:function(d){
                 if( d.form ){
