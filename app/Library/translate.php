@@ -171,6 +171,78 @@
 				case '90107':
 					$text = '认证未通过或未生效，请前往我的认证查看认证进度！';
 				break;
+
+				case '1':
+					$text = '未知错误，请重试！';
+				break;
+				case '2':
+					$text = '服务处理超时，请重试！';
+				break;
+				case '4':
+					$text = '集群超限额，请重试！';
+				break;
+				case '6':
+					$text = '没有接口权限，请确认您调用的接口已经被赋权。企业认证生效时间为1小时左右，使用需要企业认证的服务，请等待生效后重试！';
+				break;
+				case '18':
+					$text = 'QPS超限额，请降低您的调用频率！';
+				break;
+				case '19':
+					$text = '请求总量超限额，请检查当前可用字符/次数包额度！';
+				break;
+				case '100':
+					$text = 'token拉取失败，无效的access_token参数，参考“Access Token重新获取”！';
+				break;
+				case '110':
+					$text = 'Access Token失效，token有效期为30天，注意需要定期更换，也可以每次请求都拉取新token！';
+				break;
+				case '111':
+					$text = 'Access token过期，token有效期为30天，注意需要定期更换，也可以每次请求都拉取新token！';
+				break;
+
+				case '31001':
+					$text = '其他错误，请重试！';
+				break;
+				case '31005':
+					$text = '用户用量超限，请检查当前可用字符/次数包额度！';
+				break;
+				case '31006':
+					$text = '内部错误，请重试！';
+				break;
+				case '31101':
+					$text = '请求超时，请重试！';
+				break;
+				case '31102':
+					$text = '系统错误，请重试！';
+				break;
+				case '31103':
+					$text = '必填参数为空或固定参数有误，请检查参数是否为空或误传！';
+				break;
+				case '31104':
+					$text = '访问频率受限，请降低您的调用频率！';
+				break;
+				case '31105':
+					$text = '译文语言方向不支持，请检查译文语言是否在语言列表里！';
+				break;
+
+				case '31106':
+					$text = 'query字符超过最大长度，请减少翻译译文的长度（最长不得超过6000字节）！';
+				break;
+				case '31201':
+					$text = '请求翻译的原文太长，请减少翻译译文的长度（最长不得超过6000字节）！';
+				break;
+				case '31202':
+					$text = '请求翻译的原文为空，请检查翻译原文内容是否为空！';
+				break;
+				case '31203':
+					$text = '请求翻译的参数有误(目前校验header/param中鉴权必要参数不能为空)，请检查参数是否为空或误传！';
+				break;
+				case '282000':
+					$text = '内部错误，请重试！';
+				break;
+				case '282003':
+					$text = '请求翻译时存在必填参数为空，请检查必填参数（比如q、from、to等）是否为空！';
+				break;
 				default:
 					$text = '未知错误！';
 				break;
@@ -238,6 +310,7 @@
 		    	$res['data'] = $ret['result']['trans_result'];
 		    	return $res;
 		    }else{
+		    	dd($ret);
 		    	$res['code'] = $ret['error_code'];
 		    	$res['msg'] = Translate::error_code_msg($ret['error_code']).'----'.$ret['error_msg'];
 		    	$res['data'] = [];
