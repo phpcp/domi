@@ -25,6 +25,7 @@ layui.use(['form','table','unit_call'], function () {
             {field: 'name', title: '语言名称',  align:'center',fixed:'left',width:150},
             // {field: 'iso', title: '标识',align:'center',width:150},
             // {field: 'route', title: '语言包路径',  align:'center',width:150},
+            {field: 'baidu_name', title: '百度语言',  align:'center',width:150},
             {field: 'status', title: '状态',width:100,sort:true,  align:'center',templet:function(d){
                 var color = d.status == 1?'#1E9FFF':'#FF5722';
                 var text = d.status == 1?'正常':'禁用';

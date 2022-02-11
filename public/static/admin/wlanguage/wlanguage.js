@@ -23,6 +23,7 @@ layui.use(['form','table','unit_call'], function () {
             {field: 'iso', title: '标识',align:'center', width:180},
             {field: 'route', title: '语言包路径',align:'center', width:180},
             {field: 'name', title: '语言名称',align:'center',edit:'text',width:180},
+            {field: 'baidu_name_title', title: '百度国家/标识',align:'center',edit:'text',width:150},
             {field: 'status', title: '状态',width:100,sort:true,  align:'center',templet:function(d){
                 if( d.form ){
                     var checked = d.status == 1?'checked':'';
@@ -36,6 +37,11 @@ layui.use(['form','table','unit_call'], function () {
             {field: 'sort', title: '排序',  align:'center',sort:true, width:100},
             {field: 'updated_at', title: '编辑时间',  align:'center',sort:true, width:160},
             {field: 'created_at', title: '添加时间',  align:'center',sort:true, width:160},
+            // { title: '操作',width:150,  align:'center',fixed:'right',templet:function(d){
+            //     var html = '';
+            //     html +=  '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>';
+            //     return html;
+            // }},
         ]],
         done: done
     });
@@ -67,7 +73,7 @@ layui.use(['form','table','unit_call'], function () {
         var layEvent = obj.event,
             data = obj.data;
         if(layEvent === 'edit'){ //编辑
-           
+            AddTo(data);
         }
     });
     $("body").on("click",".AddTo",function(){

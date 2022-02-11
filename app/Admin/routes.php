@@ -21,6 +21,7 @@ Route::group([
     $router->get('wlanguage-list', 'WlanguageController@wlanguage_list')->name('wlanguage_list');
     $router->get('wlanguage-ajax', 'WlanguageController@wlanguage_ajax')->name('wlanguage_ajax');
     $router->get('wlanguage-add', 'WlanguageController@wlanguage_add')->name('wlanguage_add');
+    $router->post('wlanguage-baidu', 'WlanguageController@wlanguage_baidu')->name('wlanguage_baidu');
     $router->post('wlanguage-form', 'WlanguageController@wlanguage_form')->name('wlanguage_form');
     $router->post('wlanguage-show', 'WlanguageController@wlanguage_show')->name('wlanguage_show');
     //课程管理

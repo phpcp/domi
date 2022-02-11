@@ -15,6 +15,7 @@ class VerifyCsrfToken extends Middleware
     	"admin/prohibit",
     	"admin/modular-status",
         "admin/wlanguage-show",
+        "admin/wlanguage-baidu",
         "admin/wcourse-low-video",
         "admin/wcourse-factor",
         "admin/wcountryz-show",

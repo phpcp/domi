@@ -25,11 +25,11 @@ layui.use(['form','table','unit_call'], function () {
             {field: 'key', title: 'KEY',  align:'center',fixed:'left',width:150},
             // {field: 'text', title: '原文',  align:'center'},
             {field: 'text', title: '原文', align:'center',templet:function(d){
-                return '<div><span >'+d.text+'</span></div>';
+                return '<div class="layer_hover" data-remarks="'+d.remarks+'"><span >'+d.text+'</span></div>';
             }},
-            {field: 'remarks', title: '备注', align:'center',templet:function(d){
-                return '<div ><span >'+d.remarks+'</span></div>';
-            }},
+            // {field: 'remarks', title: '备注', align:'center',templet:function(d){
+            //     return '<div ><span >'+d.remarks+'</span></div>';
+            // }},
             { title: '操作',width:150,  align:'center',fixed:'right',templet:function(d){
                 var html = '';
                 html +=  '<a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="LanguageTranslation">语言翻译</a>';
@@ -157,6 +157,14 @@ layui.use(['form','table','unit_call'], function () {
         //初始化高度，使得冻结行表体高度一致
         $(".layui-table-body  tr").each(function (index, val) {
             $($(".layui-table-fixed .layui-table-body table tr")[index]).height($(val).height());
+        });
+
+        var tip_index = 0;
+        $(document).on('mouseenter', '.layer_hover', function(){
+            var content = '<span style="white-space: pre-line;height: auto !important;">'+$(this).attr('data-remarks')+'</span>';
+            tip_index = layer.tips(content, $(this), { tips: 2,time: 0,area: 'auto'});
+        }).on('mouseleave', '.layer_hover', function(){
+            layer.close(tip_index);
         });
 
         if( res.data.length == 0){

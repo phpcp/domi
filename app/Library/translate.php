@@ -1,12 +1,12 @@
 <?php
 	namespace App\Library;
-
+	use Illuminate\Support\Facades\DB;
 	/**
 	* 
 	*/
 	class Translate
 	{
-		//翻译入口
+		//翻译入口 翻译一
 		//
 		public function translate($query,$to,$from='zh')
 		{
@@ -177,4 +177,88 @@
 			}
 			return $text;
 		}
+		//翻译入口 翻译二
+		/**
+		 * Send post request.
+		 *
+		 * @param string $url
+		 * @param string $q
+		 * @param string $from
+		 * @param string $to
+		 * @return mixed
+		 */
+		public function sendPostRequest(string $q, string $to, string $from="zh",string $termIds = '')
+		{
+			$TOKENURL = config('public.baidu_translate.TOKENURL');
+		    $post_data['grant_type']       = 'client_credentials';
+		    $post_data['client_id']      = config('public.baidu_translate.APP_KEY');
+		    $post_data['client_secret'] = config('public.baidu_translate.SEC_KEY');
+		    $o = "";
+		    foreach ( $post_data as $k => $v ) {
+		    	$o.= "$k=" . urlencode( $v ). "&" ;
+		    }
+		    $post_data = substr($o,0,-1);
+		    $token = Translate::request_post($TOKENURL, $post_data);
+		    $token = json_decode($token, true);
+
+		    if( empty($token['error'])){
+		    	$access_token = $token['access_token'];
+		    }else{
+		    	$res['code'] = $token['error'];
+		    	if( $token['error_description'] == 'unknown client id'){
+		    		$res['msg'] = 'API Key不正确';
+		    	}else if( $token['error_description'] == 'Client authentication failed' ){
+		    		$res['msg'] = 'Secret Key不正确';
+		    	}
+		    	$res['data'] = [];
+		    	return $res;
+		    }
+			$header = [];
+		    $formData = json_encode([
+		        'from' => $from,
+		        'to' => $to,
+		        'q' => $q,
+		        'termIds' => $termIds,
+		    ]);
+		    $url = config('public.baidu_translate.URL').'?access_token=' . $access_token;
+		    $ch = curl_init();
+		    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+		    curl_setopt($ch, CURLOPT_POST, 1);
+		    curl_setopt($ch, CURLOPT_POSTFIELDS, $formData);
+		    curl_setopt($ch, CURLOPT_URL, $url);
+		    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		    $ret = curl_exec($ch);
+		    curl_close($ch);
+		    $ret = json_decode($ret, true);
+		    if( empty($ret['error_code'])){
+		    	$res['code'] = 0;
+		    	$res['msg'] = '获取成功！';
+		    	$res['data'] = $ret['result']['trans_result'];
+		    	return $res;
+		    }else{
+		    	$res['code'] = $ret['error_code'];
+		    	$res['msg'] = Translate::error_code_msg($ret['error_code']).'----'.$ret['error_msg'];
+		    	$res['data'] = [];
+		    	return $res;
+		    }
+		}
+		protected function request_post($url = '', $param = '') {
+	        if (empty($url) || empty($param)) {
+	            return false;
+	        }
+	        $postUrl = $url;
+	        $curlPost = $param;
+	        $curl = curl_init();//初始化curl
+	        curl_setopt($curl, CURLOPT_URL,$postUrl);//抓取指定网页
+	        curl_setopt($curl, CURLOPT_HEADER, 0);//设置header
+	        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+	        curl_setopt($curl, CURLOPT_POST, 1);//post提交方式
+	        curl_setopt($curl, CURLOPT_POSTFIELDS, $curlPost);
+	        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	        $data = curl_exec($curl);//运行curl
+	        curl_close($curl);
+	        return $data;
+	    }
 	}

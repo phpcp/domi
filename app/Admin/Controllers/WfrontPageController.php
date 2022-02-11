@@ -186,7 +186,7 @@ class WfrontPageController extends AdminController
         $config = require($path);
         $k_res = $config[$k_id];
 
-        $wlanguage = Wlanguage::orderBy('sort','asc')->orderBy('id','desc')->select('id','iso as isos','name','status','route')->get()->toArray();
+        $wlanguage = Wlanguage::orderBy('sort','asc')->orderBy('id','desc')->select('id','iso as isos','name','status','route','baidu_iso','baidu_name')->get()->toArray();
         $wlanguage_true = [];
         $wlanguage_false = [];
         $add = Admin::user()->can('translate.add');
@@ -233,7 +233,6 @@ class WfrontPageController extends AdminController
         foreach ($wlanguage_true as $key => $value) {
             array_push($wlanguage_false,$value);
         }
-        
         return return_json(0,'获取成功！',$wlanguage_false,count($wlanguage_false),$k_res);
     }
     public function translate_form(Request $request)
@@ -278,7 +277,8 @@ class WfrontPageController extends AdminController
         $data = $data['dataArray'];
         $ResData = [];
         foreach ($data as $key => $value) {
-            $res = Translate::translate($value['key_text'],$value['isos']);
+            // $res = Translate::translate($value['key_text'],$value['baidu_iso']);
+            $res = Translate::sendPostRequest($value['key_text'],$value['baidu_iso']);
             $ResData[$key]['name'] = $value['name'];
             $ResData[$key]['key'] = $value['key'];
             $ResData[$key]['key_text'] = $value['key_text'];
@@ -291,4 +291,6 @@ class WfrontPageController extends AdminController
         return view('wfrontPage.translate_add')
         ->with('title','手动翻译');
     }
+    //语言设置
+    
 }

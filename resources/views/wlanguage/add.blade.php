@@ -31,6 +31,12 @@
 		                <input type="text" name="name" autocomplete="off" class="layui-input layext-text-tool"  placeholder="请输入语言名称" maxlength="50" verify="noNull" name-verify="语言名称">
 		            </div>
 		        </div>
+		        <div class="layui-form-item">
+	                <label class="layui-form-label">百度翻译</label>
+	                <div class="layui-input-block tree" mark="baidu_name" name="baidu_name" vallist="baidu_name_title" url="wlanguage-baidu"  verify="noNull" nameVerify="百度翻译" checkbar="2" width="400px" height="90%"  level="1">
+	                        
+	                </div>
+	            </div>
 		        <div class="layui-form-item ">
 		            <label class="layui-form-label">状态</label>
 		            <div class="layui-input-block">

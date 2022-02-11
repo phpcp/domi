@@ -8,6 +8,9 @@
         height: auto !important;
         white-space: pre-line;
     }
+    .layui-layer-tips {
+        word-break: break-all;
+    }
 </style>
 <div class="layui-row ">
     <div class="layui-col-md12 ">
