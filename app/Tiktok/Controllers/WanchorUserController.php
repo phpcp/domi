@@ -30,6 +30,18 @@ class WanchorUserController
         $userArray['token'] = $tokenRre['data']['token'];
         return return_json($tokenRre['code'],$tokenRre['msg'],$userArray);
     }
+    //设置用户语言
+    public function save_lang_iso(Request $request)
+    {
+        $lang_iso = $request->lang_iso;
+        $user = getToken();
+        if( $user['code'] != 0 ){
+            return return_json(1,$user['msg']);
+        }
+        $u_id = $user['data']['id'];
+        WanchorUser::where('id',$u_id)->update(['lang_iso'=>$lang_iso]);
+        return return_json(0,'设置成功！',$lang_iso);
+    }
     
     public function show(Request $request)
     {
