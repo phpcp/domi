@@ -4,8 +4,6 @@ namespace App\Tiktok\Controllers;
 use App\Models\WanchorUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-
 class WanchorUserController 
 {
     // 模拟登录（只限于测试）
