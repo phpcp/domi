@@ -4,11 +4,14 @@ namespace App\Tiktok\Controllers;
 use App\Models\WanchorUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 class WanchorUserController 
 {
     // 模拟登录（只限于测试）
     public function login_user_dome(Request $request)
-    {
+    {   
+        $res = GeoIp();
+        dd($res);
         $id = $request->id;
         if( empty($id)){
             return return_json(1,'获取失败请传入ID！');

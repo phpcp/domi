@@ -1,4 +1,5 @@
 <?php
+use GeoIp2\Database\Reader;
 // 应用公共文件
 /**
  * 数据表格数据格式
@@ -70,4 +71,48 @@ function dataGroup(array $dataArr,$keyStr)
         $newArr[$val[$keyStr]][] = $val;
     }
     return $newArr;
+}
+
+function GeoIp($ip = '')
+{
+    $ip = empty($ip)?$_SERVER["REMOTE_ADDR"]:$ip;
+    $reader = new Reader(public_path().'/GeoLite2-City.mmdb');
+    try {
+        $record = $reader->city($ip);
+        $array = json_decode(json_encode($record),TRUE);
+        // dd($array['city']);                          //城市
+        // dd($array['continent']);                     //州
+        // dd($array['country']);                       //国家
+        // dd($array['location']);                      //坐标/时区
+        // dd($array['registered_country']);            //注册国家
+        // dd($array['subdivisions']);                  //归属地 
+        // dd($array['traits']);                        //互联网协议地址
+        $response = [
+            'code' => 0,
+            'data'  => $array,
+            'msg'=> '获取成功！'
+        ];
+        return $response;
+    } catch (\GeoIp2\Exception\AddressNotFoundException $e) {
+        $response = [
+            'code' => 1,
+            'data'  => [],
+            'msg'=> '输入IP没有找到记录！'
+        ];
+        return $response;
+    } catch (\MaxMind\Db\InvalidDatabaseExceptionn $e) {
+        $response = [
+            'code' => 1,
+            'data'  => [],
+            'msg'=> '数据库无效或损坏！'
+        ];
+        return $response;
+    }catch ( \Exception $e ){
+        $response = [
+            'code' => 1,
+            'data'  => [],
+            'msg'=> '其他错误！'
+        ];
+        return $response;
+    }
 }
