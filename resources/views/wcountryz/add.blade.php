@@ -20,10 +20,10 @@
 	                    <input type="text" name="name" autocomplete="off" class="layui-input layext-text-tool "   placeholder="请输入国家名称" maxlength="50" lay-verify="noNull" name-verify="国家名称">
 	                </div>
 	            </div>
-	            <div class="layui-form-item ">
+	            <div class="layui-form-item">
 	                <label class="layui-form-label">国家代号</label>
-	                <div class="layui-input-block">
-	                    <input type="text" name="code" autocomplete="off" class="layui-input layext-text-tool "   placeholder="请输入国家代号" maxlength="50" lay-verify="noNull" name-verify="国家代号">
+	                <div class="layui-input-block tree" mark="code" name="code" vallist="code_title" url="wcountryz-iso"  verify="noNull" nameVerify="国家代号" checkbar="2" width="400px" height="90%"  level="1">
+	                        
 	                </div>
 	            </div>
 	            <div class="layui-form-item ">

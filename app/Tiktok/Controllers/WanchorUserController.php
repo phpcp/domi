@@ -10,8 +10,9 @@ class WanchorUserController
     // 模拟登录（只限于测试）
     public function login_user_dome(Request $request)
     {   
-        $res = GeoIp();
-        dd($res);
+
+        // $res = GeoIp();
+        // dd($res);
         $id = $request->id;
         if( empty($id)){
             return return_json(1,'获取失败请传入ID！');
@@ -31,6 +32,7 @@ class WanchorUserController
         $userArray['token'] = $tokenRre['data']['token'];
         return return_json($tokenRre['code'],$tokenRre['msg'],$userArray);
     }
+    
     //设置用户语言
     public function save_lang_iso(Request $request)
     {

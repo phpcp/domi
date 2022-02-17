@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
         "admin/wcourse-low-video",
         "admin/wcourse-factor",
         "admin/wcountryz-show",
+        "admin/wcountryz-iso",
         "admin/wmeeting-show",
         "admin/wanchor-user-show",
         "admin/wagent-show",

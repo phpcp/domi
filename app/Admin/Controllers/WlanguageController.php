@@ -98,7 +98,7 @@ class WlanguageController extends AdminController
     }
     public function wlanguage_baidu(Request $request)
     {
-        $letter = ['A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q','R','S','T','W','X','Y','Z'];
+        $letter = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
         $array_baidu = $this->array_baidu();
         $Array = [];
         foreach ($letter as $key => $value) {

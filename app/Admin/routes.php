@@ -54,6 +54,7 @@ Route::group([
     $router->get('wcountryz-add', 'WcountryzController@wcountryz_add')->name('wcountryz_add');
     $router->post('wcountryz-form', 'WcountryzController@wcountryz_form')->name('wcountryz_form');
     $router->post('wcountryz-show', 'WcountryzController@wcountryz_show')->name('wcountryz_show');
+    $router->post('wcountryz-iso', 'WcountryzController@wlanguage_iso')->name('wlanguage_iso');
     //工会管理 
     $router->get('wmeeting-list', 'WmeetingController@wmeeting_list')->name('wmeeting_list');
     $router->get('wmeeting-ajax', 'WmeetingController@wmeeting_ajax')->name('wmeeting_ajax');
