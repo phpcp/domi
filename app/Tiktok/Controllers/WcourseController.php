@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Wcourse;
 use App\Models\WcourseLow;
+use App\Models\Wcountryz;
 use Illuminate\Support\Facades\DB;
 
 class WcourseController 
@@ -13,19 +14,29 @@ class WcourseController
     //获取视频主目录
     public function gain_wcourse(Request $request)
     {
+        $GeoIp = GeoIp();
+        if( $GeoIp['code'] == 0 ){
+            $iso_code = $GeoIp['data']['country']['iso_code'];
+            $Wcountryz = Wcountryz::where('code','=',$iso_code)->value('id');
+        }
         $type = $request->type;
         $lang_iso = $request->lang_iso;
-
+        
         $limit = $request->limit;
         $page = ($request->page - 1) * $limit;
 
         $Wcourse = new Wcourse();
         $Wcourse = $Wcourse->where('status','=',1);
         $Wcourse = $Wcourse->where('type','=',$type);
+        if( !empty($Wcountryz)){
+            $Wcourse = $Wcourse->WhereRaw('FIND_IN_SET(0,allow) OR FIND_IN_SET('.$Wcountryz.',allow)'); 
+            $Wcourse = $Wcourse->WhereRaw('NOT FIND_IN_SET('.$Wcountryz.',no_allow)'); 
+        }else{
+            $Wcourse = $Wcourse->WhereRaw('FIND_IN_SET(0,allow)'); 
+        }
         $Wcourse = $Wcourse->offset($page)->limit($limit);
-        $Wcourse = $Wcourse->orderBy('sort','asc');
-        $Wcourse = $Wcourse->orderBy('id','desc');
-        $Wcourse = $Wcourse->select('id','type','course_img','w_name');
+        $Wcourse = $Wcourse->orderBy('sort','asc')->orderBy('id','desc');
+        $Wcourse = $Wcourse->select('id','type','course_img','w_name','allow','no_allow');
         $Wcourse = $Wcourse->get()->toArray();
         foreach ($Wcourse as $key => $value) {
             $Wcourse[$key]['name'] = DB::table('wcourse_lang_'.$lang_iso.'s')->where('c_id',$value['id'])->value('name');

@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Wcourse;
 use App\Models\Wlanguage;
 use App\Models\WcourseFactor;
+use App\Models\Wcountryz;
 use Encore\Admin\Controllers\AdminController;
 // use App\Admin\Actions\Post\WcourseLow;
 use Encore\Admin\Widgets\Table;
@@ -48,7 +49,7 @@ class WcourseController extends AdminController
         $wcourseList = $wcourse->get()->toArray();
         $add = Admin::user()->can('wcourse.add');
         $form = Admin::user()->can('wcourse.form');
-
+      
         $Wlanguage = Wlanguage::where('status',1)->select( 'id','name','iso')->get()->toArray();
         foreach ($wcourseList as $key => $value) {
             $wcourseList[$key]['add'] = $add;
@@ -71,6 +72,19 @@ class WcourseController extends AdminController
             $WcourseFactorData['w_id'] = $value['id'];
             $WcourseFactor = WcourseFactor::where($WcourseFactorData)->select('type','factor')->get()->toArray();
             $wcourseList[$key]['factor'] = empty($WcourseFactor)?[]:$WcourseFactor;
+
+            if( !empty($value['allow'])){
+                $allow = Wcountryz::where('status','=',1)->whereIn('id',explode(',',$value['allow']))->orderBy('sort','asc')->orderBy('id','desc')->select('name')->get()->toArray();
+                foreach ($allow as $k => $v) {
+                    $wcourseList[$key]['allow_title'][$k] = $v['name'];
+                }
+            }
+            if( !empty($value['no_allow'])){
+                $no_allow = Wcountryz::where('status','=',1)->whereIn('id',explode(',',$value['no_allow']))->orderBy('sort','asc')->orderBy('id','desc')->select('name')->get()->toArray();
+                foreach ($no_allow as $k => $v) {
+                    $wcourseList[$key]['no_allow_title'][$k] = $v['name'];
+                }
+            }
         }
         return return_json(0,'获取成功！',$wcourseList,$count);
     }
@@ -83,6 +97,7 @@ class WcourseController extends AdminController
     public function wcourse_form(Request $request)
     {
         $data = $request->post();
+
         $many = $data['many'];
         $manyDataGroup = dataGroup($many,'_remove_');
         if( empty($manyDataGroup[1])){
@@ -113,6 +128,9 @@ class WcourseController extends AdminController
         $wcourse['status'] = $data['status'];
         $wcourse['sort'] = $data['sort'];
         $wcourse['w_name'] = $data['w_name'];
+
+        $wcourse['allow'] = empty($data['allow'])?0:$data['allow'];
+        $wcourse['no_allow'] = empty($data['no_allow'])?0:$data['no_allow'];
 
         if( empty($data['course_img']) ){
             return return_json(1,'课程主图不能为空！');

@@ -39,6 +39,26 @@ layui.use(['form','table','unit_call'], function () {
                     return  '<div><a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="WcourseFactors">限制条件</a></div>';
                 }
             }},
+            {field: 'allow', title: '允许访问国家',width:250,align:'center',templet:function(d){
+                var html = '<div>';
+                if( d.allow_title ){
+                    for(var i =0; i < d.allow_title.length; i++ ){
+                        html += '<span class="layui-badge layui-bg-blue" style="margin-right: 5px;">'+d.allow_title[i]+'</span>';
+                    }
+                }
+                html += '</div>';
+                return html;
+            }},
+            {field: 'no_allow', title: '不允许访问国家',width:250,align:'center',templet:function(d){
+                var html = '<div>';
+                if( d.no_allow_title ){
+                    for(var i =0; i < d.no_allow_title.length; i++ ){
+                        html += '<span class="layui-badge" style="margin-right: 5px;">'+d.no_allow_title[i]+'</span>';
+                    }
+                }
+                html += '</div>';
+                return html;
+            }},
             {field: 'status', title: '状态',width:100,sort:true,  align:'center',templet:function(d){
                 if( d.form ){
                     var checked = d.status == 1?'checked':'';

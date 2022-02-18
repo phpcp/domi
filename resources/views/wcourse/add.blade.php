@@ -22,13 +22,6 @@
 	                </div>
 	            </div>
 
-			<!-- 	<div class="layui-form-item">
-	                <label for="" class="layui-form-label">图标</label>
-	                <div class="layui-input-block">
-	                    <input type="text" name="icon" value="fa-fire" lay-filter="icon" class="hide iconPicker icon">
-	                </div>
-	            </div> -->
-
 	            <div class="layui-form-item ">
 	                <label class="layui-form-label">类型</label>
 	                <div class="layui-input-block " >
@@ -74,7 +67,6 @@
 		                </div>
 	                </div>
 	            </div>
-				
 				<div class="layui-form-item ">
 	                <label class="layui-form-label">限制条件</label>
 					<div class="layui-input-block manyJson" name="factor" data-class="factorClass" remove="1" >
@@ -112,6 +104,18 @@
 		                </div>
 	                </div>
 	        	</div>
+	        	<div class="layui-form-item">
+	                <label class="layui-form-label">允许</label>
+	                <div class="layui-input-block tree" mark="allow" name="allow" vallist="allow_title" url="wcountryz-show"  checkbar="1" width="400px" height="90%"  level="1">
+	                        
+	                </div>
+	            </div>
+	            <div class="layui-form-item">
+	                <label class="layui-form-label">不允许</label>
+	                <div class="layui-input-block tree" mark="no_allow" name="no_allow" vallist="no_allow_title" url="wcountryz-show" checkbar="1" width="400px" height="90%"  level="1">
+	                        
+	                </div>
+	            </div>
 	            <div class="layui-form-item ">
 	                <label class="layui-form-label">状态</label>
 	                <div class="layui-input-block">
